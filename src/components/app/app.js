@@ -5,11 +5,11 @@ import RandomPlanet from '../random-planet';
 import ItemList from '../item-list';
 import PersonDetails from '../person-details';
 
-impoert './app.css';
+import './app.css';
 
 const App = () => {
     return (
-        <div>
+        <div className="container">
             <Header />
             <RandomPlanet />
 
