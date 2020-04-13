@@ -1,14 +1,20 @@
 export default class SwapiService {
     _apiBase = 'https://swapi.co/api';
 
-    async getResource(url) {
-        const response = await fetch(
-            `${this._apiBase}${url}`,
-            {
-                mode: 'no-cors',
-                cache: 'default',
-            }
-        );
+    getResource = async (url) => {
+        let response;
+
+        try {
+            response = await fetch(
+                `${this._apiBase}${url}`,
+                {
+                    mode: 'no-cors',
+                    cache: 'default',
+                }
+            );
+        } catch (error) {
+            console.error(error);
+        }
 
         if (!response.ok) {
             throw new Error(
@@ -17,45 +23,45 @@ export default class SwapiService {
         }
 
         return await response.json();
-    }
+    };
 
-    async getAllPeople() {
+    getAllPeople = async () => {
         const body = await this.getResource('/people/');
 
         return body.results.map(this._transformPerson);
-    }
+    };
 
-    async getPerson(id) {
+    getPerson = async (id) => {
         const person = this.getResource(`/people/${id}/`);
 
         return this._transformPerson(person);
     }
 
-    async getAllPlanets() {
+    getAllPlanets = async () => {
         const body = await this.getResource('/planets/');
 
         return body.results.map(this._transformPlanet);
-    }
+    };
 
-    async getPlanet(id) {
+    getPlanet = async (id) => {
         const planet =  await this.getResource(`/planets/${id}/`);
 
         return  this._transformPlanet(planet);
-    }
+    };
 
-    async getAllStarships() {
+    getAllStarships = async () => {
         const body = await this.getResource(`/starships/`);
 
         return body.results.map(this._transformStarship);
-    }
+    };
 
-    async getStarship(id) {
+    getStarship = async (id) => {
         const starship =  this.getResource(`/starships/${id}/`);
 
         return this._transformStarship(starship);
-    }
+    };
 
-    _extractId(item) {
+    _extractId = (item) => {
         const idRegExp = /\/([0-9]*)\/$/;
 
         return item.url.match(idRegExp)[1];
@@ -69,7 +75,7 @@ export default class SwapiService {
             rotationPeriod: planet.rotation_period,
             diameter: planet.diameter
         };
-    }
+    };
 
     _transformPerson = (person) => {
         return {
@@ -79,7 +85,7 @@ export default class SwapiService {
             birthYear: person.birthYeard,
             eyeColor: person.eyeColor
         };
-    }
+    };
 
     _transformStarship = (starship) => {
         return {
@@ -93,5 +99,5 @@ export default class SwapiService {
             passengers: starship.passengers,
             cargoCapacity: starship.cargoCapacity,
         };
-    }
+    };
 }
