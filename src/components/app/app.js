@@ -46,8 +46,11 @@ export default class App extends Component {
             <ItemList
                 onItemSelected={this.onPlanetSelected}
                 getData={this.swapiService.getAllPlanets}
-                renderItem={({name, diameter}) => `${name} - ${diameter}`}
-            />
+            >
+                {
+                    (item) => `${item.name} - ${item.diameter}`
+                }
+            </ItemList>
         );
 
         const planetDetails = (
@@ -58,8 +61,11 @@ export default class App extends Component {
             <ItemList
                 onItemSelected={this.onStarshipSelected}
                 getData={this.swapiService.getAllStarships}
-                renderItem={({name, model}) => `${name} (${model})`}
-            />
+            >
+                {
+                    (item) => `${item.name} - ${item.model}`
+                }
+            </ItemList>
         );
 
         const starshipDetails = (

@@ -29,7 +29,7 @@ export default class ItemList extends Component {
         return listItems.map((item) => {
             const { id } = item;
 
-            const label = this.props.renderItem(item);
+            const label = this.props.children(item);
 
             return (
                 <li
