@@ -9,15 +9,16 @@ import ErrorButton from '../error-button';
 import PeoplePage from '../people-page';
 import ItemList from '../item-list';
 import SwapiService from '../../services/swapi-service';
-import PlanetnDetails from '../planet-details/planet-details';
+import ItemDetails from '../item-details';
 import TwoColumnRow from '../two-column-row';
-
 export default class App extends Component {
 
     state = {
         showRandomPlanet: true,
         hasError: false,
     };
+
+    swapiService = new SwapiService();
 
     toggleRandomPlanet = () => {
         this.setState((state) => {
@@ -31,8 +32,6 @@ export default class App extends Component {
         this.setState({ hasError: true });
     }
 
-    swapiService = new SwapiService();
-
     render() {
 
         if (this.state.hasError) {
@@ -42,10 +41,19 @@ export default class App extends Component {
         const planet
             = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
+        const {
+            getAllPlanets,
+            getPlanet,
+            getAllStarships,
+            getStarship,
+            getPlanetImage,
+            getStarshipImage
+        } = this.swapiService;
+
         const planetList = (
             <ItemList
                 onItemSelected={this.onPlanetSelected}
-                getData={this.swapiService.getAllPlanets}
+                getData={getAllPlanets}
             >
                 {
                     (item) => `${item.name} - ${item.diameter}`
@@ -54,13 +62,17 @@ export default class App extends Component {
         );
 
         const planetDetails = (
-            <PlanetnDetails planetId={this.state.selectedPlanet} />
+            <ItemDetails
+                itemId={this.state.selectedPlanet}
+                getData={getPlanet}
+                getImageUrl={getPlanetImage}
+            />
         );
 
         const starshipList = (
             <ItemList
                 onItemSelected={this.onStarshipSelected}
-                getData={this.swapiService.getAllStarships}
+                getData={getAllStarships}
             >
                 {
                     (item) => `${item.name} - ${item.model}`
@@ -69,7 +81,11 @@ export default class App extends Component {
         );
 
         const starshipDetails = (
-            <StarshipDetails planetId={this.state.selectedStarship} />
+            <ItemDetails
+                itemId={this.state.selectedStarship}
+                getData={getStarship}
+                getImageUrl={getStarshipImage}
+            />
         );
 
         return (

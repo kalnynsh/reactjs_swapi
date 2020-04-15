@@ -5,10 +5,12 @@ import PersonDetails from '../person-details';
 import SwapiService from '../../services/swapi-service';
 import TwoColumnRow from '../two-column-row';
 import ErrorBoundry from '../error-boundry';
+import ItemDetails from '../item-details';
 
 import './people-page.css';
 
 export default class PeoplePage extends Component {
+
     state = {
         selectedPerson: 1,
     };
@@ -23,10 +25,12 @@ export default class PeoplePage extends Component {
 
     render() {
 
+        const { getAllPeople, getPerson } = this.swapiService;
+
         const itemList = (
             <ItemList
                 onItemSelected={this.onPersonSelected}
-                getData={this.swapiService.getAllPeople}
+                getData={getAllPeople}
             >
                 {
                     (item) => (`${item.name} (${item.birthYear})`)
@@ -35,7 +39,11 @@ export default class PeoplePage extends Component {
         );
 
         const personDetails = (
-            <PersonDetails personId={this.state.selectedPerson} />
+            <ItemDetails
+                itemId={this.state.selectedPerson}
+                getData={getPerson}
+                getImageUrl={this.swapiService.getPersonImage}
+            />
         );
 
         return (
