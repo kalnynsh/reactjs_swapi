@@ -11,6 +11,8 @@ import ItemList from '../item-list';
 import SwapiService from '../../services/swapi-service';
 import ItemDetails from '../item-details';
 import TwoColumnRow from '../two-column-row';
+import Record from '../record';
+
 export default class App extends Component {
 
     state = {
@@ -66,7 +68,12 @@ export default class App extends Component {
                 itemId={this.state.selectedPlanet}
                 getData={getPlanet}
                 getImageUrl={getPlanetImage}
-            />
+            >
+                <Record field="name" label="Name" />
+                <Record field="population" label="Population" />
+                <Record field="rotationPeriod" label="Rotation period" />
+                <Record field="diameter" label="Diameter" />
+            </ItemDetails>
         );
 
         const starshipList = (
@@ -85,7 +92,16 @@ export default class App extends Component {
                 itemId={this.state.selectedStarship}
                 getData={getStarship}
                 getImageUrl={getStarshipImage}
-            />
+            >
+                <Record field="name" label="Name" />
+                <Record field="model" label="Model" />
+                <Record field="manufacturer" label="Manufacturer" />
+                <Record field="costInCredits" label="Cost in credits" />
+                <Record field="length" label="Length" />
+                <Record field="Crew" label="crew" />
+                <Record field="passengers" label="Passengers" />
+                <Record field="cargoCapacity" label="Cargo capacity" />
+            </ItemDetails>
         );
 
         return (
