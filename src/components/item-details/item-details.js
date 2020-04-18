@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
+import ErrorIndicator from '../error-indicator';
+
 import './item-details.css';
 
 export default class ItemDetails extends Component {
 
     state = {
         item: null,
-        image: null
+        image: null,
+        error: null,
     };
 
     componentDidMount() {
@@ -32,17 +35,25 @@ export default class ItemDetails extends Component {
                     item,
                     image: getImageUrl(item)
                 })
-            });
+            })
+            .catch((error) => {
+                this.setState({error})
+            })
+        ;
     }
 
     render() {
-        const { item, image } = this.state;
+        const { item, image, error } = this.state;
 
         if (!item) {
             return <span>Select a item from a list</span>;
         }
 
-        const { id, name, gender, birthYear, eyeColor } = item;
+        if (error) {
+            return <ErrorIndicator />;
+        }
+
+        const { name } = item;
 
         return (
             <div className="item-details card">
@@ -52,7 +63,7 @@ export default class ItemDetails extends Component {
                 />
 
                 <div className="card-body">
-                    <h4>{name}: {id}</h4>
+                    <h4>{name}</h4>
                     <ul className="list-group list-group-flush">
                         {
                             React.Children.map(this.props.children, (child) => {
