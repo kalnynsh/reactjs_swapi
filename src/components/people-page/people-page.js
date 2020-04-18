@@ -6,7 +6,7 @@ import ErrorBoundry from '../error-boundry';
 import {
     PersonDetails,
     PersonList
-} from './sw-components';
+} from '../sw-components';
 
 import './people-page.css';
 
@@ -27,11 +27,7 @@ export default class PeoplePage extends Component {
         const itemList = (
             <PersonList
                 onItemSelected={this.onPersonSelected}
-            >
-                {
-                    (item) => (`${item.name} (${item.birthYear})`)
-                }
-            </PersonList>
+            />
         );
 
         const personDetails = (

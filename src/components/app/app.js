@@ -2,17 +2,22 @@ import React, { Component } from 'react';
 
 import Header from '../header';
 import RandomPlanet from '../random-planet';
+import ErrorBoundry from '../error-boundry';
 import ErrorIndicator from '../error-indicator';
 import ErrorButton from '../error-button';
 import PeoplePage from '../people-page';
 import TwoColumnRow from '../two-column-row';
+// import SwapiService from '../../services/swapi-service';
+import DummySwapiService from '../../dummy-services';
 
 import {
     PlanetDetails,
     StarshipDetails,
     PlanetList,
     StarshipList
-} from './sw-components';
+} from '../sw-components';
+
+import { SwapiServiceProvider } from '../swapi-service-context';
 
 import './app.css';
 
@@ -22,6 +27,10 @@ export default class App extends Component {
         showRandomPlanet: true,
         hasError: false,
     };
+
+    // swapiService = new SwapiService();
+
+    swapiService = new DummySwapiService();
 
     toggleRandomPlanet = () => {
         this.setState((state) => {
@@ -47,11 +56,7 @@ export default class App extends Component {
         const planetList = (
             <PlanetList
                 onItemSelected={this.onPlanetSelected}
-            >
-                {
-                    (item) => `${item.name} - ${item.diameter}`
-                }
-            </PlanetList>
+            />
         );
 
         const planetDetails = (
@@ -63,11 +68,7 @@ export default class App extends Component {
         const starshipList = (
             <StarshipList
                 onItemSelected={this.onStarshipSelected}
-            >
-                {
-                    (item) => `${item.name} - ${item.model}`
-                }
-            </StarshipList>
+            />
         );
 
         const starshipDetails = (
@@ -77,34 +78,32 @@ export default class App extends Component {
         );
 
         return (
-            <div className="container stardb-app">
-
-                <Header />
-
-                {planet}
-
-                <div className="row mb2 button-row">
-                    <button
-                        className="toggle-planet btn btn-warning btn-lg"
-                        onClick={this.toggleRandomPlanet}
-                    >
-                        Toggle random planet
-                    </button>
-                    <ErrorButton />
-                </div>
-
-                <PeoplePage />
-
-                <TwoColumnRow
-                    left={planetList}
-                    right={planetDetails}
-                />
-
-                <TwoColumnRow
-                    left={starshipList}
-                    right={starshipDetails}
-                />
-            </div>
+            <ErrorBoundry>
+                <SwapiServiceProvider value={this.swapiService} >
+                    <div className="container stardb-app">
+                        <Header />
+                        {planet}
+                        <div className="row mb2 button-row">
+                            <button
+                                className="toggle-planet btn btn-warning btn-lg"
+                                onClick={this.toggleRandomPlanet}
+                            >
+                                Toggle random planet
+                            </button>
+                            <ErrorButton />
+                        </div>
+                        <PeoplePage />
+                        <TwoColumnRow
+                            left={planetList}
+                            right={planetDetails}
+                        />
+                        <TwoColumnRow
+                            left={starshipList}
+                            right={starshipDetails}
+                        />
+                    </div>
+                </SwapiServiceProvider>
+            </ErrorBoundry>
         );
     }
 }

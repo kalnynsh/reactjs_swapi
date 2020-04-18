@@ -34,7 +34,7 @@ export default class ItemDetails extends Component {
                 this.setState({
                     item,
                     image: getImageUrl(item)
-                })
+                });
             })
             .catch((error) => {
                 this.setState({error})
