@@ -2,44 +2,58 @@ import React from 'react';
 import ItemList from '../item-list';
 import withData from '../hoc-helpers';
 import withChildFunction from '../hoc-with-child';
-// import SwapiService from '../../services/swapi-service';
-import DummySwapiService from '../../dummy-services';
-
-// const swapiService = new SwapiService();
-const swapiService = new DummySwapiService();
-
-const {
-    getAllPeople,
-    getAllPlanets,
-    getAllStarships
-} = swapiService;
+import withSwapiService from '../hoc-with-swapi-service';
 
 const renderPlanet = ({ name, diameter }) => <span>{name} ({diameter})</span>;
 const renderStarship = ({ name, model }) => <span>{name} ({model})</span>;
 const renderPerson = ({ name, birthYear }) => <span>{name} ({birthYear})</span>;
 
-const PersonList = withData(
-    withChildFunction(
-        ItemList,
-        renderPerson
+const mapPersornMethodsToProps = (swapiService) => {
+    return {
+        getData: swapiService.getAllPeople
+    };
+};
+
+const mapPlanetMethodsToProps = (swapiService) => {
+    return {
+        getData: swapiService.getAllPlanets
+    };
+};
+
+const mapStarshipMethodsToProps = (swapiService) => {
+    return {
+        getData: swapiService.getAllStarships
+    };
+};
+
+const PersonList = withSwapiService(
+    withData(
+        withChildFunction(
+            ItemList,
+            renderPerson
+        )
     ),
-    getAllPeople
+    mapPersornMethodsToProps
 );
 
-const PlanetList = withData(
-    withChildFunction(
-        ItemList,
-        renderPlanet
+const PlanetList = withSwapiService(
+    withData(
+        withChildFunction(
+            ItemList,
+            renderPlanet
+        )
     ),
-    getAllPlanets
+    mapPlanetMethodsToProps
 );
 
-const StarshipList = withData(
-    withChildFunction(
-        ItemList,
-        renderStarship
+const StarshipList = withSwapiService(
+    withData(
+        withChildFunction(
+            ItemList,
+            renderStarship
+        ),
     ),
-    getAllStarships
+    mapStarshipMethodsToProps
 );
 
 export {
