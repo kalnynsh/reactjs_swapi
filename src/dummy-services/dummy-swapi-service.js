@@ -169,7 +169,7 @@ export default class DummySwapiService {
   };
 
   getPerson = async (id) => {
-    return this._transformPerson(this._people[id]);
+    return this._transformPerson(this._people[--id]);
   };
 
   getAllPlanets = async () => {
@@ -177,7 +177,7 @@ export default class DummySwapiService {
   };
 
   getPlanet = async (id) => {
-    return this._transformPlanet(this._planets[id]);
+    return this._transformPlanet(this._planets[--id]);
   };
 
   getAllStarships = async () => {
@@ -185,7 +185,7 @@ export default class DummySwapiService {
   };
 
   getStarship = async (id) => {
-    return this._transformStarship(this._starships[id]);
+    return this._transformStarship(this._starships[--id]);
   };
 
   // getPersonImage = () => {

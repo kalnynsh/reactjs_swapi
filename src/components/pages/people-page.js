@@ -8,38 +8,38 @@ import {
     PersonList
 } from '../sw-components';
 
-import './people-page.css';
-
 export default class PeoplePage extends Component {
 
     state = {
-        selectedPerson: 1,
+        selectedItem: null,
     };
 
-    onPersonSelected = (selectedPerson) => {
+    onItemSelectedHandler = (selectedItem) => {
         this.setState({
-            selectedPerson
+            selectedItem
         });
     };
 
     render() {
 
+        const { selectedItem } = this.state;
+
         const itemList = (
             <PersonList
-                onItemSelected={this.onPersonSelected}
+                onItemSelected={this.onItemSelectedHandler}
             />
         );
 
-        const personDetails = (
+        const itemDetails = (
             <PersonDetails
-                itemId={this.state.selectedPerson}
+                itemId={selectedItem}
             />
         );
 
         return (
             <ErrorBoundry>
                 <div className="row mb2">
-                    <TwoColumnRow left={itemList} right={personDetails} />
+                    <TwoColumnRow left={itemList} right={itemDetails} />
                 </div>
             </ErrorBoundry>
         );
