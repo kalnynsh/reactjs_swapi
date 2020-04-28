@@ -38,9 +38,7 @@ export default class StarshipsPage extends Component {
 
         return (
             <ErrorBoundry>
-                <div className="row mb2">
-                    <TwoColumnRow left={itemList} right={itemDetails} />
-                </div>
+                <TwoColumnRow left={itemList} right={itemDetails} />
             </ErrorBoundry>
         );
     }
