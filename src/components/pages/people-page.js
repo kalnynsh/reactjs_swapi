@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import TwoColumnRow from '../two-column-row';
 import ErrorBoundry from '../error-boundry';
 
@@ -8,38 +8,27 @@ import {
     PersonList
 } from '../sw-components';
 
-export default class PeoplePage extends Component {
+const PeoplePage = ({ match, history }) => {
 
-    state = {
-        selectedItem: null,
-    };
+    const { id } = match.params;
 
-    onItemSelectedHandler = (selectedItem) => {
-        this.setState({
-            selectedItem
-        });
-    };
+    const itemList = (
+        <PersonList
+            onItemSelected={(id) => history.push(`${id}`)}
+        />
+    );
 
-    render() {
+    const itemDetails = (
+        <PersonDetails
+            itemId={id}
+        />
+    );
 
-        const { selectedItem } = this.state;
-
-        const itemList = (
-            <PersonList
-                onItemSelected={this.onItemSelectedHandler}
-            />
-        );
-
-        const itemDetails = (
-            <PersonDetails
-                itemId={selectedItem}
-            />
-        );
-
-        return (
-            <ErrorBoundry>
-                <TwoColumnRow left={itemList} right={itemDetails} />
-            </ErrorBoundry>
-        );
-    }
+    return (
+        <ErrorBoundry>
+            <TwoColumnRow left={itemList} right={itemDetails} />
+        </ErrorBoundry>
+    );
 }
+
+export default withRouter(PeoplePage);
