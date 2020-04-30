@@ -209,7 +209,7 @@ export default class DummySwapiService {
   }
 
   getStarshipImage = ({ id }) => {
-    return `${this._imageBase}/startships/${id}.jpg`;
+    return `${this._imageBase}/starships/${id}.jpg`;
   }
 
   _transformPlanet = (planet) => {

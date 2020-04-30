@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-
 import Header from '../header';
 import RandomPlanet from '../random-planet';
+
 import ErrorBoundry from '../error-boundry';
 import ErrorIndicator from '../error-indicator';
-import { PeoplePage, PlanetsPage, StarshipsPage } from '../pages';
+
 import SwapiService from '../../services/swapi-service';
 import DummySwapiService from '../../dummy-services';
-
 import { SwapiServiceProvider } from '../swapi-service-context';
 
 import './app.css';
@@ -15,11 +14,32 @@ import './app.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import {StarshipDetails} from '../sw-components';
 
+import {
+    PeoplePage,
+    PlanetsPage,
+    StarshipsPage,
+    SecretPage,
+    LoginPage
+} from '../pages';
+
 export default class App extends Component {
 
     state = {
         hasError: false,
         swapiService: new DummySwapiService(),
+        isLoggedIn: false,
+    };
+
+    onLoginHandler = () => {
+        this.setState({
+            isLoggedIn: true
+        });
+    };
+
+    onLogoutHandler = () => {
+        this.setState({
+            isLoggedIn: false
+        });
     };
 
     componentDidCatch() {
@@ -44,7 +64,7 @@ export default class App extends Component {
             return <ErrorIndicator />;
         }
 
-        const { swapiService } = this.state;
+        const { swapiService, isLoggedIn } = this.state;
 
         return (
             <ErrorBoundry>
@@ -69,6 +89,28 @@ export default class App extends Component {
                                     const { id } = match.params;
                                     return <StarshipDetails itemId={id} />;
                                 }}
+                            />
+                            <Route
+                                path="/login"
+                                render={() => (
+                                    <LoginPage
+                                        isLoggedIn={isLoggedIn}
+                                        onLogin={this.onLoginHandler}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/logout"
+                                onClick={this.onLogoutHandler}
+                                render={() => (
+                                    <p>You are going to logout...</p>
+                                )}
+                            />
+                            <Route
+                                path="/secret"
+                                render={() => (
+                                    <SecretPage isLoggedIn={isLoggedIn} />
+                                )}
                             />
 
                         </div>
