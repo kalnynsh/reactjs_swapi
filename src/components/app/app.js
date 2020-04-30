@@ -19,7 +19,8 @@ import {
     PlanetsPage,
     StarshipsPage,
     SecretPage,
-    LoginPage
+    LoginPage,
+    LogoutPage
 } from '../pages';
 
 export default class App extends Component {
@@ -103,7 +104,7 @@ export default class App extends Component {
                                 path="/logout"
                                 onClick={this.onLogoutHandler}
                                 render={() => (
-                                    <p>You are going to logout...</p>
+                                    <LogoutPage onLogout={this.onLogoutHandler} />
                                 )}
                             />
                             <Route
